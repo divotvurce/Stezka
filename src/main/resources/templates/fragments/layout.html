@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:fragment="head">
+    <meta charset="utf-8" />
+    <meta name="description" content="Platforma pro učitele." />
+    <meta name="keywords" content="učitelé, web, portál, komunita, vzdělávání, sdílení" />
+    <meta name="author" content="Martin Bosák" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/scripts/scripts.js" rel="stylesheet">
+    <link href="/styles/styles.css" rel="stylesheet" type="text/css"/>
+    <title>Stezka - společná cesta vzděláváním</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.0.3/tinymce.min.js"></script>
+    <script>
+        tinymce.init({
+            selector: "textarea[id*=content]",
+            entities: "160,nbsp",
+            entity_encoding: "named",
+            entity_encoding: "raw"
+        });
+    </script>
+</head>
+<body class="d-flex flex-column">
+    <!-- Navigation-->
+    <nav th:fragment="nav" class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container px-1 mx-2">
+            <a class="navbar-brand" th:href="@{/}"><img class="logo" th:src="@{/images/stezka.svg}" alt="logo" /></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" th:href="@{/}"><img class="menu" th:src="@{/images/akce.svg}" alt="menu" /></a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/onas}"><img class="menu" th:src="@{/images/onas.svg}" alt="menu" /></a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/prirucka}"><img class="menu" th:src="@{/images/prirucka.svg}" alt="menu" /></a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/inspirace}"><img class="menu" th:src="@{/images/inspirace.svg}" alt="menu" /></a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/ucet/prihlaseni}"><img class="menu" th:src="@{/images/prihlaseni.svg}" alt="menu" /></a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/ucet/registrace}"><img class="menu" th:src="@{/images/registrace.svg}" alt="menu" /></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+<footer class="bg-dark py-4 mt-auto" th:fragment="footer">
+        <div class="container px-5">
+            <div class="row align-items-center justify-content-between flex-column flex-sm-row">
+                <div class="col-auto"><div class="small m-0 text-white">Copyright &copy; Your Website 2023</div></div>
+                <div class="col-auto">
+                    <a class="link-light small" href="#!">Privacy</a>
+                    <span class="text-white mx-1">&middot;</span>
+                    <a class="link-light small" href="#!">Terms</a>
+                    <span class="text-white mx-1">&middot;</span>
+                    <a class="link-light small" href="#!">Contact</a>
+                </div>
+            </div>
+        </div>
+</footer>
+</body>
+</html>

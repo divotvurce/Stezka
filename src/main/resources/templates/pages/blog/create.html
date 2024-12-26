@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="cs-cz" xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
+<head th:replace="~{fragments/layout.html :: head}"></head>
+
+<nav th:replace="~{fragments/layout.html :: nav}"></nav>
+
+<body class="bg-primary">
+<div id="layoutAuthentication">
+    <div id="layoutAuthentication_content">
+        <main>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10 col-xl-10">
+                        <div class="card shadow-lg border-0 rounded-lg mt-5 mb-5">
+                            <div class="card-header"><h3 class="text-center font-weight-light my-4">Vytvořit článek</h3></div>
+                            <div class="card-body">
+                                <form class="d-flex flex-column gap-2"
+                                      method="post"
+                                      th:action="@{/inspirace/vytvorit}"
+                                      th:object="${articleDTO}">
+                                    <div class="form-group">
+                                        <label for="title" class="control-label">Titulek</label>
+                                        <input id="title" th:field="*{title}" class="form-control"/>
+                                        <small class="text-danger" th:errors="*{title}"></small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="categories" class="control-label">Kategorie</label>
+                                        <div id="categories" class="checkbox-container">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" th:field="*{categories}" value="Začínající učitelé" id="category1">
+                                                <label class="form-check-label" for="category1">Začínající učitelé</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" th:field="*{categories}" value="Základní škola" id="category2">
+                                                <label class="form-check-label" for="category2">Základní škola</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" th:field="*{categories}" value="Střední škola" id="category3">
+                                                <label class="form-check-label" for="category3">Střední škola</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" th:field="*{categories}" value="Přípravy" id="category4">
+                                                <label class="form-check-label" for="category4">Přípravy</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" th:field="*{categories}" value="Aktivity" id="category5">
+                                                <label class="form-check-label" for="category5">Aktivity</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" th:field="*{categories}" value="Sebevzdělávání" id="category6">
+                                                <label class="form-check-label" for="category6">Sebevzdělávání</label>
+                                            </div>
+                                        </div>
+                                        <small class="text-danger" th:errors="*{categories}"></small>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="description" class="control-label">Popisek</label>
+                                        <textarea id="description" class="form-control" th:field="*{description}"></textarea>
+                                        <small class="text-danger" th:errors="*{description}"></small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="content" class="control-label">Obsah</label>
+                                        <textarea id="content" class="form-control" th:field="*{content}"></textarea>
+                                        <small class="text-danger" th:errors="*{content}"></small>
+                                    </div>
+                                   <!--
+                                    <div class="form-group">
+                                        <label for="image" class="control-label">Obrázek (ideálně 700x350)</label>
+                                        <input type="file" id="image" class="form-control" th:field="*{image}" accept="image/*"/>
+                                        <small class="text-danger" th:errors="*{image}"></small>
+                                    </div>
+                                    -->
+
+                                    <div class="mt-4 mb-0 text-center">
+                                        <button type="submit" class="btn btn-primary btn-block">Uložit</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="card-footer text-center py-3">
+                                <div class="small"><a th:href="@{/inspirace}">Vrátit se zpět na články</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <div id="layoutAuthentication_footer">
+        <footer th:replace="~{fragments/layout.html :: footer}"></footer>
+    </div>
+</div>
+</body>
+</html>
