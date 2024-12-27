@@ -26,7 +26,7 @@
                            href="#!"></a>
                     </header>
                     <!-- Preview image figure-->
-                    <figure class="mb-4"><img class="img-fluid rounded" src="https://dummyimage.com/900x400/ced4da/6c757d.jpg" alt="..." /></figure>
+                    <figure class="mb-4"><img class="fixed-size-img-article img-fluid rounded card-img-top" th:src="@{${article.imagePath}}" alt="Článek obrázek" /></figure>
                     <!-- Post content-->
                     <section class="mb-5">
                         <strong th:text="${article.description}"></strong>

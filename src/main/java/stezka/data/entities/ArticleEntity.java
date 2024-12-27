@@ -32,6 +32,9 @@ public class ArticleEntity {
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    @Column(name = "image_path")
+    private String imagePath;
+
     public long getArticleId() {
         return articleId;
     }
@@ -77,5 +80,13 @@ public class ArticleEntity {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 }

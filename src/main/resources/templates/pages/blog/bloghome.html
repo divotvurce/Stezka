@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="cs-cz" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="cs-cz" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:src="http://www.w3.org/1999/xhtml">
 <head th:replace="~{fragments/layout.html :: head}"></head>
 <body class="d-flex flex-column">
 <main class="flex-shrink-0">
 
     <nav th:replace="~{fragments/layout.html :: nav}"></nav>
+
+    <div class="py-2 flash-message message-success" th:text="${success}" th:if="${success}"></div>
+    <div class="py-2 flash-message message-error" th:text="${error}" th:if="${error}"></div>
 
     <!-- Page header with logo and tagline-->
     <header class="py-5 bg-light border-bottom mb-4">
@@ -42,7 +45,7 @@
                                         th:if="${iterStat.index % 2 == 0}"
                                         class="list-group-item">
                                         <div class="card mb-4">
-                                            <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
+                                            <img class="img-fluid card-img-top fixed-size-img" th:src="@{${article.imagePath}}" alt="Test Image" />
                                             <div class="card-body">
                                                 <div class="small text-muted" th:text="${#temporals.format(article.createdAt, 'dd.MM.yyyy')}"></div>
                                                 <h2 class="card-title h4" th:text="${article.title}"></h2>
@@ -61,7 +64,7 @@
                                         th:if="${iterStat.index % 2 != 0}"
                                         class="list-group-item">
                                         <div class="card mb-4">
-                                            <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
+                                            <img class="fixed-size-img img-fluid card-img-top" th:src="@{${article.imagePath}}" alt="Článek obrázek" />
                                             <div class="card-body">
                                                 <div class="small text-muted" th:text="${#temporals.format(article.createdAt, 'dd.MM.yyyy')}"></div>
                                                 <h2 class="card-title h4" th:text="${article.title}"></h2>

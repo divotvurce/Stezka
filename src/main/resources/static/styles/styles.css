@@ -4278,6 +4278,7 @@ textarea.form-control-lg {
 .card-img-top {
   border-top-left-radius: var(--bs-card-inner-border-radius);
   border-top-right-radius: var(--bs-card-inner-border-radius);
+
 }
 
 .card-img,
@@ -10955,4 +10956,22 @@ footer {
     background-color: #DFA05B; /* Bootstrap primary color variable */
     border-color: #DFA05B;
     color: white; /* Make text white for better contrast */
+}
+.fixed-size-img {
+    width: 100%; /* Let the image fill the width of its parent */
+    height: auto;
+    max-width: 750px;
+    max-height: 300px;
+    aspect-ratio: 2 / 1; /* Maintains 2:1 ratio */
+    object-fit: cover; /* Fills the area without distortion */
+    object-position: center; /* Ensures cropping is centered */
+}
+.fixed-size-img-article {
+    width: 100%; /* Let the image fill the width of its parent */
+    height: auto;
+    max-width: 900px;
+    max-height: 450px;
+    aspect-ratio: 2 / 1; /* Maintains 2:1 ratio */
+    object-fit: cover; /* Fills the area without distortion */
+    object-position: center; /* Ensures cropping is centered */
 }

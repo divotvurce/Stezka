@@ -16,13 +16,17 @@
                             <div class="card-body">
                                 <form class="d-flex flex-column gap-2"
                                       method="post"
+                                      enctype="multipart/form-data"
                                       th:action="@{/inspirace/editovat/{articleId}(articleId=${articleId})}"
                                       th:object="${articleDTO}">
+                                    <!-- Title -->
                                     <div class="form-group">
                                         <label for="title" class="control-label">Titulek</label>
-                                        <input id="title" th:field="*{title}" class="form-control"/>
+                                        <input id="title" th:field="*{title}" class="form-control" />
                                         <small class="text-danger" th:errors="*{title}"></small>
                                     </div>
+
+                                    <!-- Categories -->
                                     <div class="form-group">
                                         <label for="categories" class="control-label">Kategorie</label>
                                         <div id="categories" class="checkbox-container">
@@ -54,28 +58,37 @@
                                         <small class="text-danger" th:errors="*{categories}"></small>
                                     </div>
 
+                                    <!-- Description -->
                                     <div class="form-group">
                                         <label for="description" class="control-label">Popisek</label>
                                         <textarea id="description" class="form-control" th:field="*{description}"></textarea>
                                         <small class="text-danger" th:errors="*{description}"></small>
                                     </div>
+
+                                    <!-- Content -->
                                     <div class="form-group">
                                         <label for="content" class="control-label">Obsah</label>
                                         <textarea id="content" class="form-control" th:field="*{content}"></textarea>
                                         <small class="text-danger" th:errors="*{content}"></small>
                                     </div>
-                                    <!--
-                                     <div class="form-group">
-                                         <label for="image" class="control-label">Obrázek (ideálně 700x350)</label>
-                                         <input type="file" id="image" class="form-control" th:field="*{image}" accept="image/*"/>
-                                         <small class="text-danger" th:errors="*{image}"></small>
-                                     </div>
-                                     -->
 
+                                    <!-- Image Upload -->
+                                    <div class="form-group">
+                                        <label for="image" class="control-label">Obrázek (ideálně 700x350)</label>
+                                        <!-- Existing image preview -->
+                                        <div class="mb-2">
+                                            <img th:if="${articleDTO.imagePath}" th:src="@{${articleDTO.imagePath}}" alt="Aktuální obrázek" style="max-width: 100%; max-height: 200px;" />
+                                            <input type="hidden" name="currentImage" th:value="${articleDTO.imagePath}" />
+                                        </div>
+                                        <input type="file" id="image" class="form-control" name="image" accept="image/*" />
+                                    </div>
+
+                                    <!-- Submit Button -->
                                     <div class="mt-4 mb-0 text-center">
                                         <button type="submit" class="btn btn-primary btn-block">Uložit</button>
                                     </div>
                                 </form>
+
                             </div>
                             <div class="card-footer text-center py-3">
                                 <div class="small"><a th:href="@{/inspirace}">Vrátit se zpět na články</a></div>

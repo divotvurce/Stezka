@@ -28,7 +28,7 @@ public class ArticleDTO {
 
     private LocalDateTime createdAt;
 
-    // private MultipartFile image;
+    private String imagePath;
 
     //region: Getters and setters
     public String getTitle() {
@@ -78,13 +78,12 @@ public class ArticleDTO {
     public void setArticleId(long articleId) {
         this.articleId = articleId;
     }
-/**
-    public MultipartFile getImage() {
-        return image;
+
+    public String getImagePath() {
+        return imagePath;
     }
 
-    public void setImage(MultipartFile image) {
-        this.image = image;
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
- */
 }
