@@ -3,6 +3,8 @@ package stezka.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -19,7 +21,7 @@ public class ApplicationSecurityConfiguration {
                 .requestMatchers(
                         "/styles/**", "/images/**", "/scripts/**", "/fonts/**",
                         "/inspirace", "/", "/prirucka", "/inspirace/clanek/**", "/",
-                        "/ucet/**"
+                        "/ucet/**", "/ucet/registrace"
                 )
                 .permitAll()
                 .anyRequest() // Ostatní stránky jako např. `/articles/**` budou pouze pro přihlášené uživatele
@@ -38,4 +40,8 @@ public class ApplicationSecurityConfiguration {
                     .build();
     }
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }
