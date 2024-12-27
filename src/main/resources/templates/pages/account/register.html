@@ -3,6 +3,7 @@
 <head th:replace="~{fragments/layout.html :: head}"></head>
 
 <nav th:replace="~{fragments/layout.html :: nav}"></nav>
+<div class="py-2 flash-message message-error" th:text="${error}" th:if="${error}"></div>
 
 <body class="bg-primary">
 <div id="layoutAuthentication">
@@ -14,7 +15,7 @@
                         <div class="card shadow-lg border-0 rounded-lg mt-5">
                             <div class="card-header"><h3 class="text-center font-weight-light my-4">Vytvořit účet</h3></div>
                             <div class="card-body">
-                                <form>
+                                <form th:action="@{/account/register}" th:object="${userDTO}" method="post">
                                     <div class="row mb-3">
                                         <div class="col-md-6">
                                             <div class="form-floating mb-3 mb-md-0">
