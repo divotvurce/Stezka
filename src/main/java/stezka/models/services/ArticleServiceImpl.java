@@ -10,6 +10,7 @@ import stezka.models.dto.mappers.ArticleMapper;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.StreamSupport;
 
 @Service
@@ -52,5 +53,9 @@ public class ArticleServiceImpl implements ArticleService {
         return articleRepository
                 .findById(articleId)
                 .orElseThrow();
+    }
+
+    public Optional<ArticleEntity> getFeaturedArticle() {
+        return articleRepository.findFirstByOrderByCreatedAtDesc();
     }
 }

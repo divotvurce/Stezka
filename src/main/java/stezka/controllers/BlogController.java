@@ -26,6 +26,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -45,16 +47,48 @@ public class BlogController {
     public String renderBloghome(@RequestParam(defaultValue = "0") int page,
                                  @RequestParam(defaultValue = "4") int size,
                                  Model model) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        // Fetch the featured article
+        Optional<ArticleEntity> featuredArticleOptional = articleService.getFeaturedArticle();
+
+        // Determine the page size dynamically
+        int effectiveSize = (page == 0) ? size + 1 : 6; // First page includes the featured article
+        Pageable pageable = PageRequest.of(page, effectiveSize, Sort.by("createdAt").descending());
+
+        // Fetch paginated articles
         Page<ArticleEntity> articlePage = articleRepository.findAll(pageable);
 
-        model.addAttribute("articles", articlePage.getContent());
+        // Exclude the featured article
+        List<ArticleEntity> articlesWithoutFeatured = articlePage.getContent().stream()
+                .filter(article -> featuredArticleOptional.isEmpty() || !Objects.equals(article.getArticleId(), featuredArticleOptional.get().getArticleId()))
+                .toList();
+
+        // Prepare the articles list based on the current page
+        List<ArticleEntity> articlesToDisplay;
+        if (page == 0) {
+            // First page: featured article + 4 smaller ones
+            articlesToDisplay = articlesWithoutFeatured.stream()
+                    .limit(size)
+                    .toList();
+            featuredArticleOptional.ifPresent(article -> model.addAttribute("featuredArticle", article));
+        } else {
+            // Other pages: 6 smaller articles
+            articlesToDisplay = articlesWithoutFeatured;
+        }
+
+        // Update the model attributes
+        model.addAttribute("articles", articlesToDisplay);
         model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", articlePage.getTotalPages());
-        model.addAttribute("totalArticles", articlePage.getTotalElements());
+
+        // Adjust total pages to account for the dynamic page size
+        long totalArticlesExcludingFeatured = articlePage.getTotalElements() - (featuredArticleOptional.isPresent() ? 1 : 0);
+        int totalPages = (int) Math.ceil((double) totalArticlesExcludingFeatured / (page == 0 ? size : 6));
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("totalArticles", totalArticlesExcludingFeatured);
 
         return "pages/blog/bloghome";
     }
+
+
 
     @GetMapping("/clanek/{articleId}")
     public String renderDetail(

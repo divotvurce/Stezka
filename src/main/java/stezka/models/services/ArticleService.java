@@ -1,8 +1,10 @@
 package stezka.models.services;
 
+import stezka.data.entities.ArticleEntity;
 import stezka.models.dto.ArticleDTO;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ArticleService {
 
@@ -13,5 +15,7 @@ public interface ArticleService {
     ArticleDTO getById(long articleId);
 
     void edit(ArticleDTO article);
+
+    Optional<ArticleEntity> getFeaturedArticle();
 
 }
