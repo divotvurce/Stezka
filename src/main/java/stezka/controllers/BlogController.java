@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -66,11 +67,13 @@ public class BlogController {
         return "pages/blog/blogpost";
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping("/vytvorit")
     public String renderCreateForm(@ModelAttribute ArticleDTO article) {
         return "pages/blog/create";
     }
 
+    @Secured("ROLE_ADMIN")
     @PostMapping("/vytvorit")
     public String createArticle(
             @Valid @ModelAttribute ArticleDTO article,
@@ -117,6 +120,7 @@ public class BlogController {
         return "redirect:/inspirace";
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping("/editovat/{articleId}")
     public String renderEditForm(@PathVariable Long articleId, @ModelAttribute ArticleDTO article) {
         ArticleDTO fetchedArticle = articleService.getById(articleId);
@@ -124,6 +128,7 @@ public class BlogController {
         return "pages/blog/edit";
     }
 
+    @Secured("ROLE_ADMIN")
     @PostMapping("/editovat/{articleId}")
     public String editArticle(
             @PathVariable long articleId,

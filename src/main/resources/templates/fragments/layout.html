@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:fragment="head">
     <meta charset="utf-8" />
     <meta name="description" content="Platforma pro učitele." />
@@ -35,8 +35,16 @@
                     <li class="nav-item"><a class="nav-link" th:href="@{/onas}"><img class="menu" th:src="@{/images/onas.svg}" alt="menu" /></a></li>
                     <li class="nav-item"><a class="nav-link" th:href="@{/prirucka}"><img class="menu" th:src="@{/images/prirucka.svg}" alt="menu" /></a></li>
                     <li class="nav-item"><a class="nav-link" th:href="@{/inspirace}"><img class="menu" th:src="@{/images/inspirace.svg}" alt="menu" /></a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/ucet/prihlaseni}"><img class="menu" th:src="@{/images/prihlaseni.svg}" alt="menu" /></a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/ucet/registrace}"><img class="menu" th:src="@{/images/registrace.svg}" alt="menu" /></a></li>
+                    <li class="nav-item" sec:authorize="isAnonymous()"><a class="nav-link" th:href="@{/ucet/prihlaseni}"><img class="menu" th:src="@{/images/prihlaseni.svg}" alt="menu" /></a></li>
+                    <li class="nav-item" sec:authorize="isAnonymous()"><a class="nav-link" th:href="@{/ucet/registrace}"><img class="menu" th:src="@{/images/registrace.svg}" alt="menu" /></a></li>
+                    <li>
+                        <!-- Hidden logout form -->
+                        <form id="logoutForm" method="post" th:action="@{/ucet/odhlaseni}" style="display: none;"></form>
+                        <!-- Logout link styled with an image -->
+                        <a href="#" class="nav-link" sec:authorize="isAuthenticated()" onclick="document.getElementById('logoutForm').submit(); return false;">
+                            <img class="menu" th:src="@{/images/odhlaseni.svg}" alt="menu" />
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

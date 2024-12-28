@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="cs-cz" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:src="http://www.w3.org/1999/xhtml">
+<html lang="cs-cz" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:src="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="~{fragments/layout.html :: head}"></head>
 <body class="d-flex flex-column">
 <main class="flex-shrink-0">
@@ -109,7 +110,7 @@
             <!-- Side widgets-->
             <div class="col-lg-4">
                 <!-- Centered Info Icon Above -->
-                <div class="d-flex justify-content-center mb-3">
+                <div class="d-flex justify-content-center mb-3" sec:authorize="hasRole('ADMIN')">
                     <a th:href="@{/inspirace/vytvorit}"><img class="menu" th:src="@{/images/novy.svg}" alt="menu" /></a>
                 </div>
 
