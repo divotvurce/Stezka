@@ -18,4 +18,6 @@ public interface ArticleService {
 
     Optional<ArticleEntity> getFeaturedArticle();
 
+    List<ArticleDTO> getLatestArticles(int limit);
+
 }

@@ -29,7 +29,12 @@ public class HomeController {
 
     @GetMapping("/")
     public String showNewsletterForm(Model model) {
+
         model.addAttribute("newsletterDTO", new NewsletterDTO());
+
+        List<ArticleDTO> latestArticles = articleServiceImpl.getLatestArticles(3);
+        model.addAttribute("newsletterDTO", new NewsletterDTO());
+        model.addAttribute("latestArticles", latestArticles);
         return "pages/home/index";
     }
 
