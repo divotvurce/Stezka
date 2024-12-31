@@ -35,6 +35,9 @@ public class ArticleEntity {
     @Column(name = "image_path")
     private String imagePath;
 
+    @Column(nullable = false)
+    private String authorName;
+
     public long getArticleId() {
         return articleId;
     }
@@ -88,5 +91,14 @@ public class ArticleEntity {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
 }

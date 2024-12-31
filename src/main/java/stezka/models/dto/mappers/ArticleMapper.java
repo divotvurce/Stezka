@@ -10,15 +10,19 @@ import stezka.models.dto.ArticleDTO;
 public interface ArticleMapper {
 
     @Mapping(target = "imagePath", source = "imagePath")
+    @Mapping(source = "authorName", target = "authorName")
     ArticleEntity toEntity(ArticleDTO source);
 
     @Mapping(target = "imagePath", source = "imagePath")
+    @Mapping(source = "authorName", target = "authorName")
     ArticleDTO toDTO(ArticleEntity source);
 
     @Mapping(target = "imagePath", source = "imagePath")
+    @Mapping(source = "authorName", target = "authorName")
     void updateArticleDTO(ArticleDTO source, @MappingTarget ArticleDTO target);
 
     @Mapping(target = "imagePath", source = "imagePath")
+    @Mapping(source = "authorName", target = "authorName")
     void updateArticleEntity(ArticleDTO source, @MappingTarget ArticleEntity target);
 
 }

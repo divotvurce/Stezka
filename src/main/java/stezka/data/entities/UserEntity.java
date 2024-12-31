@@ -110,4 +110,7 @@ public class UserEntity implements UserDetails {
     public void setAdmin(boolean admin) {
         this.admin = admin;
     }
+    public String getFullName() {
+        return firstname + " " + lastname;
+    }
 }

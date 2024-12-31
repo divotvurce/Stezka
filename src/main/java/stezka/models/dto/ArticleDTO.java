@@ -30,6 +30,8 @@ public class ArticleDTO {
 
     private String imagePath;
 
+    private String authorName;
+
     //region: Getters and setters
     public String getTitle() {
         return title;
@@ -85,5 +87,13 @@ public class ArticleDTO {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
 }

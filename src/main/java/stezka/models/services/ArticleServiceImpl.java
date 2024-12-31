@@ -1,14 +1,19 @@
 package stezka.models.services;
 
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import stezka.data.entities.ArticleEntity;
+import stezka.data.entities.UserEntity;
 import stezka.data.repositories.ArticleRepository;
+import stezka.data.repositories.UserRepository;
 import stezka.models.dto.ArticleDTO;
 import stezka.models.dto.mappers.ArticleMapper;
 
@@ -25,12 +30,27 @@ public class ArticleServiceImpl implements ArticleService {
     private ArticleRepository articleRepository;
     @Autowired
     private ArticleMapper articleMapper;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public void create(ArticleDTO article) {
 
-        ArticleEntity newArticle = articleMapper.toEntity(article);
+        // Get the logged-in user's email (email is used as the username)
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();  // Get the email of the logged-in user
 
+        // Fetch the User by email
+        UserEntity userEntity = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Get the full name (author's name) of the user
+        String authorName = userEntity.getFullName();  // Combines first and last name
+
+        // Convert DTO to Entity
+        ArticleEntity newArticle = articleMapper.toEntity(article);
+        newArticle.setAuthorName(authorName);  // Set the author's name for the new article
+
+        // Save the article
         articleRepository.save(newArticle);
     }
     @Override
