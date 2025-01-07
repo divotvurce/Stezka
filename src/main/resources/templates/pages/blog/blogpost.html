@@ -85,7 +85,13 @@
                 <!-- Centered Info Icon Above -->
                 <div class="d-flex justify-content-between mb-3" sec:authorize="hasRole('ADMIN')">
                     <a th:href="@{'/inspirace/editovat/' + ${article.articleId}}"><img class="menu" th:src="@{/images/editovat.svg}" alt="menu" /></a>
-                    <a th:href="@{/inspirace/vytvorit}"><img class="menu" th:src="@{/images/smazat.svg}" alt="menu" /></a>
+                    <form th:action="@{'/inspirace/smazat/' + ${article.articleId}}" method="post" onsubmit="return confirm('Opravdu chcete smazat tento článek?');">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <input type="hidden" name="_method" value="DELETE" />
+                        <button type="submit" class="btn btn-link p-0">
+                            <img class="menu" th:src="@{/images/smazat.svg}" alt="menu" />
+                        </button>
+                    </form>
                 </div>
                 <!-- Search widget-->
                 <div class="card mb-4">

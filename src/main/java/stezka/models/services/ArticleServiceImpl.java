@@ -93,4 +93,9 @@ public class ArticleServiceImpl implements ArticleService {
                 .map(articleMapper::toDTO)
                 .collect(Collectors.toList());
     }
+    @Override
+    public void remove(long articleId) {
+        ArticleEntity fetchedEntity = getArticleOrThrow(articleId);
+        articleRepository.delete(fetchedEntity);
+    }
 }

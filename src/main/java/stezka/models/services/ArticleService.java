@@ -20,4 +20,6 @@ public interface ArticleService {
 
     List<ArticleDTO> getLatestArticles(int limit);
 
+    void remove(long articleId);
+
 }

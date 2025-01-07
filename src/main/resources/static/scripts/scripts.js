@@ -1,11 +1,4 @@
-/*!
-* Start Bootstrap - Modern Business v5.0.7 (https://startbootstrap.com/template-overviews/modern-business)
-* Copyright 2013-2023 Start Bootstrap
-* Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-modern-business/blob/master/LICENSE)
-*/
-// This file is intentionally blank
-// Use this file to add JavaScript to your project
-    const quotes = [
+const quotes = [
     "Učení má být takové, aby to, co se jim předkládá, chápali jako cenný dar a ne jako cosi povinného, co jim zkazit dobrou náladu. - Albert Einstein",
     "Učit se bez přemýšlení je zbytečné. Přemýšlet bez učení je nebezpečné. - Konfucius",
      "S pomocí knih se mnozí stávají učenými i mimo školy. Bez knih nebývá učený nikdo ani ve škole. - Jan Amos Komenský",
@@ -23,3 +16,26 @@
 
     setInterval(changeQuote, 10000); // Change quote every 5 seconds
     window.onload = changeQuote; // Show the first quote on page load
+
+// úprava linků
+document.addEventListener("DOMContentLoaded", function () {
+    const hash = window.location.hash; // Get the URL hash (e.g., #v-pills-kontakt)
+    if (hash) {
+        // Find the tab button and content associated with the hash
+        const tabButton = document.querySelector(`button[data-bs-target="${hash}"]`);
+        const tabContent = document.querySelector(hash);
+
+        if (tabButton && tabContent) {
+            // Deactivate the currently active tab
+            const activeTabButton = document.querySelector('.nav-link.active');
+            const activeTabContent = document.querySelector('.tab-pane.active');
+
+            if (activeTabButton) activeTabButton.classList.remove('active');
+            if (activeTabContent) activeTabContent.classList.remove('show', 'active');
+
+            // Activate the target tab
+            tabButton.classList.add('active');
+            tabContent.classList.add('show', 'active');
+        }
+    }
+});

@@ -50,44 +50,47 @@ public class BlogController {
         // Fetch the featured article
         Optional<ArticleEntity> featuredArticleOptional = articleService.getFeaturedArticle();
 
-        // Determine the page size dynamically
-        int effectiveSize = (page == 0) ? size + 1 : 6; // First page includes the featured article
+        // Determine page size and exclude the featured article dynamically
+        int effectiveSize = (page == 0) ? size + 1 : 6; // First page includes featured article
         Pageable pageable = PageRequest.of(page, effectiveSize, Sort.by("createdAt").descending());
-
-        // Fetch paginated articles
         Page<ArticleEntity> articlePage = articleRepository.findAll(pageable);
 
-        // Exclude the featured article
-        List<ArticleEntity> articlesWithoutFeatured = articlePage.getContent().stream()
-                .filter(article -> featuredArticleOptional.isEmpty() || !Objects.equals(article.getArticleId(), featuredArticleOptional.get().getArticleId()))
+        // Exclude the featured article from the list
+        List<ArticleEntity> filteredArticles = articlePage.getContent().stream()
+                .filter(article -> featuredArticleOptional.isEmpty() ||
+                        !Objects.equals(article.getArticleId(), featuredArticleOptional.get().getArticleId()))
                 .toList();
 
-        // Prepare the articles list based on the current page
+        // Prepare articles for display
         List<ArticleEntity> articlesToDisplay;
         if (page == 0) {
-            // First page: featured article + 4 smaller ones
-            articlesToDisplay = articlesWithoutFeatured.stream()
+            // First page: Add featured article to model
+            articlesToDisplay = filteredArticles.stream()
                     .limit(size)
                     .toList();
             featuredArticleOptional.ifPresent(article -> model.addAttribute("featuredArticle", article));
         } else {
-            // Other pages: 6 smaller articles
-            articlesToDisplay = articlesWithoutFeatured;
+            // Other pages: Display all articles
+            articlesToDisplay = filteredArticles;
         }
 
-        // Update the model attributes
+        // Calculate total articles and pages
+        long totalArticlesExcludingFeatured = articleRepository.count() - (featuredArticleOptional.isPresent() ? 1 : 0);
+        int totalPages = (int) Math.ceil((double) (totalArticlesExcludingFeatured - (page == 0 ? size : 0)) / 6) + 1;
+
+        // Handle out-of-range pages
+        if (page >= totalPages) {
+            return "redirect:/inspirace?page=" + (totalPages - 1) + "&size=" + size;
+        }
+
+        // Update model attributes
         model.addAttribute("articles", articlesToDisplay);
         model.addAttribute("currentPage", page);
-
-        // Adjust total pages to account for the dynamic page size
-        long totalArticlesExcludingFeatured = articlePage.getTotalElements() - (featuredArticleOptional.isPresent() ? 1 : 0);
-        int totalPages = (int) Math.ceil((double) totalArticlesExcludingFeatured / (page == 0 ? size : 6));
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("totalArticles", totalArticlesExcludingFeatured);
 
         return "pages/blog/bloghome";
     }
-
 
 
     @GetMapping("/clanek/{articleId}")
@@ -218,5 +221,14 @@ public class BlogController {
 
         return "redirect:/inspirace";
     }
-}
 
+    @DeleteMapping("/smazat/{articleId}")
+    public String deleteArticle(
+            @PathVariable long articleId,
+            RedirectAttributes redirectAttributes
+    ) {
+        articleService.remove(articleId);
+        redirectAttributes.addFlashAttribute("success", "Článek smazán.");
+        return "redirect:/inspirace";
+    }
+}
