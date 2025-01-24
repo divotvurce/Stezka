@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<div class="side-menu" xmlns:th="http://www.w3.org/1999/xhtml">
+    <ul class="nav flex-column nav-pills me-3 mt-3" th:fragment="side-menu(activePage)">
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${activePage == 'uvod' ? 'active' : ''}" th:href="@{/prirucka}">Úvod</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${activePage == 'proc-ucit' ? 'active' : ''}" th:href="@{/prirucka/proc-ucit}">Proč učit?</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${activePage == 'zacatky' ? 'active' : ''}" th:href="@{/prirucka/zacatky}">Začátky ve škole</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${activePage == 'absolvent' ? 'active' : ''}" th:href="@{/prirucka/absolvent}">Kompetenční rámec absolventa učitelství</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${activePage == 'priprava' ? 'active' : ''}" th:href="@{/prirucka/priprava}">Plánování a příprava výuky</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${activePage == 'metody' ? 'active' : ''}" th:href="@{/prirucka/metody}">Metody a strategie</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${activePage == 'hodnoceni' ? 'active' : ''}" th:href="@{/prirucka/hodnoceni}">Hodnocení a zpětná vazba</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${activePage == 'byrokracie' ? 'active' : ''}" th:href="@{/prirucka/byrokracie}">Byrokracie</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${activePage == 'komunikace' ? 'active' : ''}" th:href="@{/prirucka/komunikace}">Komunikace a vztahy</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${activePage == 'rozvoj' ? 'active' : ''}" th:href="@{/prirucka/rozvoj}">Profesionální rozvoj</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${activePage == 'psychika' ? 'active' : ''}" th:href="@{/prirucka/psychika}">Psychické zdraví</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:classappend="${activePage == 'problemy' ? 'active' : ''}" th:href="@{/prirucka/problemy}">Řešení problémů a krizových situací</a>
+        </li>
+    </ul>
+</div>

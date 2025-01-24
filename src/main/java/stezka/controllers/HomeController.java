@@ -66,8 +66,4 @@ public class HomeController {
     public String renderAbout() {
         return "pages/home/about";
     }
-    @GetMapping("/prirucka")
-    public String renderPrirucka() {
-        return "pages/home/prirucka";
-    }
 }

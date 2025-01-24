@@ -10981,3 +10981,31 @@ footer {
     object-fit: cover; /* Fills the area without distortion */
     object-position: center; /* Ensures cropping is centered */
 }
+
+.side-menu {
+    width: 200px;
+    float: left;
+    margin-right: 20px;
+}
+
+.side-menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+.side-menu ul li {
+    margin: 10px 0;
+}
+
+.side-menu ul li a {
+    text-decoration: none;
+    color: #333;
+}
+
+.side-menu ul li a:hover {
+    color: #007bff;
+}
+
+.content {
+    margin-left: 220px;
+}
