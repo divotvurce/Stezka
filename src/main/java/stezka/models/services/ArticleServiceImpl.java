@@ -36,21 +36,20 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void create(ArticleDTO article) {
 
-        // Get the logged-in user's email (email is used as the username)
+        // Získání jména podle přihlášení (přihlašuje se e-mailem)
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();  // Get the email of the logged-in user
+        String email = authentication.getName();
 
-        // Fetch the User by email
+        // Získání Usera pomocí emailu
         UserEntity userEntity = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
 
-        // Get the full name (author's name) of the user
-        String authorName = userEntity.getFullName();  // Combines first and last name
+        // Získání celého jména
+        String authorName = userEntity.getFullName();
 
-        // Convert DTO to Entity
+        // Nastavení jména autora článku a uložení
         ArticleEntity newArticle = articleMapper.toEntity(article);
-        newArticle.setAuthorName(authorName);  // Set the author's name for the new article
+        newArticle.setAuthorName(authorName);
 
-        // Save the article
         articleRepository.save(newArticle);
     }
     @Override
@@ -84,11 +83,11 @@ public class ArticleServiceImpl implements ArticleService {
         return articleRepository.findFirstByOrderByCreatedAtDesc();
     }
     public List<ArticleDTO> getLatestArticles(int limit) {
-        // Fetch the latest articles (using Pageable to limit the result)
+        // Získání nejnovějších článků limitováno pomocí stránkování
         Pageable pageable = PageRequest.of(0, limit, Sort.by("createdAt").descending());
         Page<ArticleEntity> articlePage = articleRepository.findAll(pageable);
 
-        // Convert the articles to DTOs and return
+        // Převedení článků na DTO a zobrazení
         return articlePage.stream()
                 .map(articleMapper::toDTO)
                 .collect(Collectors.toList());

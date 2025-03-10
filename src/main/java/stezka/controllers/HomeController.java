@@ -47,18 +47,17 @@ public class HomeController {
         if (result.hasErrors()) {
             model.addAttribute("error", "Formulář obsahuje chyby. Zkontrolujte prosím svůj e-mail.");
             model.addAttribute("newsletterDTO", newsletterDTO);
-            return "pages/home/index"; // Show the form with error messages
+            return "pages/home/index";
         }
 
-        // Save to the database
+        // uložení do databáze
         NewsletterEntity subscriber = new NewsletterEntity();
         subscriber.setEmail(newsletterDTO.getEmail());
         repository.save(subscriber);
 
-        // Clear the form by resetting the DTO
         model.addAttribute("newsletterDTO", new NewsletterDTO());
 
-        // Redirect or show success message
+
         model.addAttribute("success", "Odesláno. Děkujeme za Váš zájem!");
         return "pages/home/index";
     }

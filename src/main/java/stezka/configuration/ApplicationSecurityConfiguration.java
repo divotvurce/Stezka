@@ -23,8 +23,8 @@ public class ApplicationSecurityConfiguration {
                     .loginPage("/ucet/prihlaseni")
                     .loginProcessingUrl("/ucet/prihlaseni")
                     .defaultSuccessUrl("/inspirace", true) // Nastavení přesměrování po úspěšném přihlášení
-                    .usernameParameter("email") // Chceme se přihlašovat pomocí emailu
-                    .permitAll() // Povolit vstup na `/account/login` i nepřihlášeným uživatelům
+                    .usernameParameter("email") // Přihlašování pomocí emailu
+                    .permitAll()
                 .and()
                     .logout()
                     .logoutUrl("/ucet/odhlaseni") // Odhlašovací URL adresa

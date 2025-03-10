@@ -47,43 +47,40 @@ public class BlogController {
     public String renderBloghome(@RequestParam(defaultValue = "0") int page,
                                  @RequestParam(defaultValue = "4") int size,
                                  Model model) {
-        // Fetch the featured article
+        // Zavolání (fetch) zvýrazněného článku - poslední vytvořený
         Optional<ArticleEntity> featuredArticleOptional = articleService.getFeaturedArticle();
 
-        // Determine page size and exclude the featured article dynamically
-        int effectiveSize = (page == 0) ? size + 1 : 6; // First page includes featured article
+        // Velikost stránky s dalšími vybranými články a odstranění zvýrazněného článku (aby nebyl 2x)
+        int effectiveSize = (page == 0) ? size + 1 : 6;
         Pageable pageable = PageRequest.of(page, effectiveSize, Sort.by("createdAt").descending());
         Page<ArticleEntity> articlePage = articleRepository.findAll(pageable);
 
-        // Exclude the featured article from the list
+
         List<ArticleEntity> filteredArticles = articlePage.getContent().stream()
                 .filter(article -> featuredArticleOptional.isEmpty() ||
                         !Objects.equals(article.getArticleId(), featuredArticleOptional.get().getArticleId()))
                 .toList();
 
-        // Prepare articles for display
         List<ArticleEntity> articlesToDisplay;
         if (page == 0) {
-            // First page: Add featured article to model
+
             articlesToDisplay = filteredArticles.stream()
                     .limit(size)
                     .toList();
             featuredArticleOptional.ifPresent(article -> model.addAttribute("featuredArticle", article));
         } else {
-            // Other pages: Display all articles
+
             articlesToDisplay = filteredArticles;
         }
 
-        // Calculate total articles and pages
+        // výpočet počtu článků a stránek
         long totalArticlesExcludingFeatured = articleRepository.count() - (featuredArticleOptional.isPresent() ? 1 : 0);
         int totalPages = (int) Math.ceil((double) (totalArticlesExcludingFeatured - (page == 0 ? size : 0)) / 6) + 1;
 
-        // Handle out-of-range pages
         if (page >= totalPages) {
             return "redirect:/inspirace?page=" + (totalPages - 1) + "&size=" + size;
         }
 
-        // Update model attributes
         model.addAttribute("articles", articlesToDisplay);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
@@ -115,8 +112,8 @@ public class BlogController {
     public String createArticle(
             @Valid @ModelAttribute ArticleDTO article,
             BindingResult result,
-            @RequestParam("image") MultipartFile imageFile,  // Ensure you get the file here
-            RedirectAttributes redirectAttributes  // For feedback messages
+            @RequestParam("image") MultipartFile imageFile,
+            RedirectAttributes redirectAttributes
     ) {
         if (result.hasErrors()) {
             return renderCreateForm(article);
@@ -124,29 +121,27 @@ public class BlogController {
 
         try {
             if (!imageFile.isEmpty()) {
-                // Define upload directory (relative to the project directory or server path)
+                // Složka pro ukládání obrázků ke článkům
                 String uploadDir = "src/main/resources/static/uploads/images/";
 
-                // Generate a unique file name
+                // Generování unikátního jména pro obrázek
                 String fileName = UUID.randomUUID().toString() + "_" + imageFile.getOriginalFilename();
 
-                // Ensure the directory exists
                 Path uploadPath = Paths.get(uploadDir);
                 if (!Files.exists(uploadPath)) {
                     Files.createDirectories(uploadPath);
                 }
 
-                // Save the file
+                // uložení obrázku
                 Path filePath = uploadPath.resolve(fileName);
                 Files.write(filePath, imageFile.getBytes());
 
-                // Set the file path in the DTO (relative path)
                 article.setImagePath("/uploads/images/" + fileName);
             }
-            // Save the article (with image path)
+            // Uložení článku s cestou k obrázku
             articleService.create(article);
 
-            // Redirect with a success message
+
             redirectAttributes.addFlashAttribute("success", "Článek byl úspěšně vytvořen.");
         } catch (IOException e) {
             redirectAttributes.addFlashAttribute("error", "Došlo k chybě při nahrávání obrázku.");
@@ -171,12 +166,12 @@ public class BlogController {
             @PathVariable long articleId,
             @Valid @ModelAttribute ArticleDTO article,
             BindingResult result,
-            @RequestParam("image") MultipartFile imageFile, // Image file input
-            Model model, // To pass data back to the form
+            @RequestParam("image") MultipartFile imageFile,
+            Model model,
             RedirectAttributes redirectAttributes
     ) {
         if (result.hasErrors()) {
-            // Include the existing article data in the model to redisplay the form
+
             ArticleDTO existingArticle = articleService.getById(articleId);
             article.setImagePath(existingArticle.getImagePath());
             model.addAttribute("article", article);
@@ -184,7 +179,7 @@ public class BlogController {
         }
 
         try {
-            // Check if a new image is uploaded
+
             if (!imageFile.isEmpty()) {
                 String uploadDir = "src/main/resources/static/uploads/images/";
                 String fileName = UUID.randomUUID().toString() + "_" + imageFile.getOriginalFilename();
@@ -197,15 +192,15 @@ public class BlogController {
                 Path filePath = uploadPath.resolve(fileName);
                 Files.write(filePath, imageFile.getBytes());
 
-                // Set the new image path
+
                 article.setImagePath("/uploads/images/" + fileName);
             } else {
-                // Retain the existing image path
+
                 ArticleDTO existingArticle = articleService.getById(articleId);
                 article.setImagePath(existingArticle.getImagePath());
             }
 
-            // Update the article
+
             article.setArticleId(articleId);
             articleService.edit(article);
 
@@ -214,7 +209,7 @@ public class BlogController {
             redirectAttributes.addFlashAttribute("error", "Došlo k chybě při nahrávání obrázku.");
             e.printStackTrace();
 
-            // Re-display the form with the entered data
+
             model.addAttribute("article", article);
             return "pages/blog/edit";
         }
